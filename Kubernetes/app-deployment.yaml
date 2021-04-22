@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sca-app-deployment
+  labels:
+     app: sca-app
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: sca-app
+  template:
+    metadata:
+      labels:
+        app: sca-app
+    spec:
+      containers:
+        - image: gcr.io/sca-capstone-1/sca-capstone-image:v2
+          env:
+            - name: MONGODB_URI
+              value: "mongodb://mongo:27017/capstoneDB"
+            - name: MONGODB_URI_LOCAL
+              value: "mongodb://mongo:27017/capstoneDB"
+          name: sca-app
+          ports:
+            - containerPort: 3000
+          resources:
+            limits:
+              memory: 512Mi
+              cpu: "1"
+            requests:
+              memory: 256Mi
+              cpu: "0.2"
